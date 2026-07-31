@@ -1,20 +1,18 @@
-package com.sigme.be.menstrual
+package com.sigme.be.menstrual.entity
 
-import com.sigme.be.global.entity.BaseEntity
+import com.sigme.be.global.entity.UpdatableEntity
 import com.sigme.be.user.entity.User
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.FetchType
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
-import jakarta.persistence.Table
+import jakarta.persistence.*
 import java.time.LocalDate
 
 /**
  * 월경 한 번의 기록
  */
 @Entity
-@Table(name = "menstrual_period")
+@Table(uniqueConstraints = [
+    UniqueConstraint("uk_period_user_start_date",
+        ["user_id", "start_date"])
+])
 class MenstrualPeriod private constructor(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false, updatable = false)
@@ -24,7 +22,7 @@ class MenstrualPeriod private constructor(
     val menstrualStartDate: LocalDate,
 
     durationDays: Int
-) : BaseEntity() {
+) : UpdatableEntity() {
 
     @Column(name = "duration_days", nullable = false)
     var durationDays: Int = durationDays
@@ -40,7 +38,7 @@ class MenstrualPeriod private constructor(
     }
 
     companion object {
-        fun of(
+        fun create(
             user: User,
             startDate: LocalDate,
             durationDays: Int

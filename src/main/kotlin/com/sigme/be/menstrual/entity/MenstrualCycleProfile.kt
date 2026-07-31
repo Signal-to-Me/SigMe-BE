@@ -1,6 +1,6 @@
-package com.sigme.be.menstrual
+package com.sigme.be.menstrual.entity
 
-import com.sigme.be.global.entity.BaseEntity
+import com.sigme.be.global.entity.UpdatableEntity
 import com.sigme.be.user.entity.User
 import jakarta.persistence.*
 
@@ -13,7 +13,7 @@ class MenstrualCycleProfile private constructor(
 
     averageCycleLength: Int,
     averagePeriod: Int
-) : BaseEntity() {
+) : UpdatableEntity() {
 
     @Column(name = "average_cycle_length_days", nullable = false)
     var averageCycleLength: Int = averageCycleLength
@@ -38,7 +38,7 @@ class MenstrualCycleProfile private constructor(
     }
 
     companion object {
-        fun of(
+        fun create(
             user: User,
             averageCycleLength: Int,
             averagePeriod: Int

@@ -1,12 +1,11 @@
 package com.sigme.be.global.entity
 
 import jakarta.persistence.*
-import org.springframework.data.annotation.CreatedDate
-import org.springframework.data.annotation.LastModifiedDate
-import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import org.hibernate.Hibernate
+import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.Instant
-import java.util.UUID
+import java.util.*
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener::class)
@@ -17,10 +16,6 @@ abstract class BaseEntity {
 
     @CreatedDate
     var createdAt: Instant? = null
-        protected set
-
-    @LastModifiedDate
-    var updatedAt: Instant? = null
         protected set
 
     override fun equals(other: Any?): Boolean {

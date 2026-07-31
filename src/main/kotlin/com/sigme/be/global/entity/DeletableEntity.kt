@@ -1,13 +1,10 @@
 package com.sigme.be.global.entity
 
-import jakarta.persistence.Column
 import jakarta.persistence.MappedSuperclass
 import java.time.Instant
 
 @MappedSuperclass
-abstract class Deletable : BaseEntity() {
-
-    @Column(name = "deleted_at")
+abstract class DeletableEntity : UpdatableEntity() {
     var deletedAt: Instant? = null
         protected set
 

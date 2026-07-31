@@ -1,13 +1,13 @@
 package com.sigme.be.user.entity
 
-import com.sigme.be.global.entity.Deletable
+import com.sigme.be.global.entity.DeletableEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 
 @Entity(name = "app_user")
 class User(
     userName: String
-) : Deletable() {
+) : DeletableEntity() {
     @Column(nullable = false)
     var userName: String = userName
         protected set

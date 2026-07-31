@@ -1,6 +1,6 @@
-package com.sigme.be.psychiatric
+package com.sigme.be.psychiatric.entity
 
-import com.sigme.be.global.entity.BaseEntity
+import com.sigme.be.global.entity.UpdatableEntity
 import com.sigme.be.user.entity.User
 import jakarta.persistence.*
 import java.time.LocalDate
@@ -25,7 +25,7 @@ class PsychiatricVisit private constructor(
     val visitDate: LocalDate,
 
     visitTime: LocalTime
-) : BaseEntity() {
+) : UpdatableEntity() {
 
     @Column(name = "visit_time", nullable = false)
     var visitTime: LocalTime = normalize(visitTime)
@@ -36,7 +36,7 @@ class PsychiatricVisit private constructor(
     }
 
     companion object {
-        fun of(
+        fun create(
             user: User,
             visitDate: LocalDate,
             visitTime: LocalTime
