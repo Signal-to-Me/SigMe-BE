@@ -1,6 +1,6 @@
 package com.sigme.be.medication.entity
 
-import com.sigme.be.global.entity.BaseEntity
+import com.sigme.be.global.entity.UpdatableEntity
 import com.sigme.be.medication.enums.IntakePeriod
 import com.sigme.be.user.entity.User
 import jakarta.persistence.*
@@ -28,7 +28,7 @@ class MedicationIntakeCheck private constructor(
 
     @Column(name = "intake_date", nullable = false, updatable = false)
     val intakeDate: LocalDate
-) : BaseEntity() {
+) : UpdatableEntity() {
 
     @get:Transient
     val isTaken: Boolean
@@ -39,10 +39,16 @@ class MedicationIntakeCheck private constructor(
         protected set
 
     fun check(checkedAt: Instant) {
+        check(!isTaken){
+            "이미 복용한 약입니다."
+        }
         this.checkedAt = checkedAt
     }
 
     fun uncheck() {
+        check(isTaken){
+            "이미 복용하지 않은 약입니다."
+        }
         checkedAt = null
     }
 
