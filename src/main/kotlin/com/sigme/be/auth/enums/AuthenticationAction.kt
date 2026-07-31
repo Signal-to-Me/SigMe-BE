@@ -1,0 +1,14 @@
+package com.sigme.be.auth.enums
+
+enum class AuthenticationAction {
+    LOGIN_SUCCEEDED,
+    LOGIN_FAILED,
+    AUTH_PROVIDER_LINKED,
+    AUTH_PROVIDER_UNLINKED,
+    PRIMARY_PROVIDER_CHANGED,
+    PASSWORD_CHANGED,
+    PIN_VERIFICATION_FAILED,
+    APP_LOCKED,
+    APP_UNLOCKED,
+    PIN_CHANGED,
+}

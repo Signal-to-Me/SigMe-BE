@@ -1,7 +1,7 @@
 package com.sigme.be.auth.entity
 
 import com.sigme.be.auth.enums.ProviderType
-import com.sigme.be.global.entity.BaseEntity
+import com.sigme.be.global.entity.UpdatableEntity
 import com.sigme.be.user.entity.User
 import jakarta.persistence.*
 
@@ -11,8 +11,12 @@ import jakarta.persistence.*
     uniqueConstraints = [
         UniqueConstraint(
             name = "uk_auth_provider_account",
-            columnNames = ["user_id", "provider_type", "provider_account_id"]
+            columnNames = ["provider_type", "provider_account_id"]
         ),
+        UniqueConstraint(
+            "uk_auth_provider_user_type",
+            columnNames = ["user_id", "provider_type"]
+        )
     ]
 )
 class UserAuthProvider private constructor(
@@ -29,7 +33,7 @@ class UserAuthProvider private constructor(
 
     passwordHash: String?,
     isPrimary: Boolean
-) : BaseEntity() {
+) : UpdatableEntity() {
 
     @Column(name = "password_hash")
     var passwordHash: String? = passwordHash
@@ -91,9 +95,11 @@ class UserAuthProvider private constructor(
         ) = UserAuthProvider(
             user,
             ProviderType.EMAIL,
-            providerAccountId,
+            emailNormalize(providerAccountId),
             passwordHash,
             isPrimary
         )
+
+        fun emailNormalize(email: String) = email.lowercase()
     }
 }
