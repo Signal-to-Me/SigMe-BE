@@ -5,7 +5,8 @@ import com.sigme.be.user.entity.User
 import jakarta.persistence.*
 import java.time.Instant
 
-@Entity(name = "app_lock_credential")
+@Entity
+@Table(name = "app_lock_credential")
 class UserAppLockCredential(
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, updatable = false)
