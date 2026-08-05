@@ -10,7 +10,7 @@ import java.time.LocalDate
     uniqueConstraints = [
         UniqueConstraint(
             "uk_daily_bingo_board_user_board_date",
-            ["user_id", "boardDate"]
+            ["user_id", "board_date"]
         )
     ]
 )
