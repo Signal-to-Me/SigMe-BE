@@ -1,0 +1,74 @@
+name: 기능
+description: 도메인 단위 개발 작업
+title: ""
+body:
+  - type: dropdown
+    id: domain
+    attributes:
+      label: 도메인
+      description: 코드 패키지와 같은 이름입니다. 생성 후 같은 이름의 라벨을 달아주세요.
+      options:
+        - 인증 (auth)
+        - 사용자 (user)
+        - 습관 (habit)
+        - 복약 (medication)
+        - 월경 (menstrual)
+        - 정신과 (psychiatric)
+        - 빙고 (bingo)
+        - 인사말 (greeting)
+        - 통계 (stats)
+        - 공통 (global)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: 우선순위
+      description: PRD에 명시된 값을 그대로 옮깁니다.
+      options:
+        - P0
+        - P1
+        - P2
+        - P3
+    validations:
+      required: true
+
+  - type: input
+    id: parent
+    attributes:
+      label: 상위 Epic
+      description: PRD에서 나온 작업이면 Epic 번호를, 아니면 비워둡니다.
+      placeholder: "#7"
+
+  - type: textarea
+    id: responsibility
+    attributes:
+      label: 서버 책임
+      description: 이 작업에서 서버가 책임지는 범위만 적습니다. FE 요구사항은 제외합니다.
+    validations:
+      required: true
+
+  - type: textarea
+    id: api
+    attributes:
+      label: API 초안
+      description: 코드를 짜기 전에 엔드포인트를 먼저 정합니다.
+      value: |
+        `METHOD /api/v1/...`
+
+        <details>
+        <summary>Request / Response</summary>
+
+        ```json
+        ```
+
+        </details>
+
+  - type: textarea
+    id: todo
+    attributes:
+      label: 작업
+      value: |
+        - [ ]
+        - [ ] 테스트
