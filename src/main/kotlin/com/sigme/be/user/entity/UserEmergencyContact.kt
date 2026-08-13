@@ -3,8 +3,7 @@ package com.sigme.be.user.entity
 import com.sigme.be.global.entity.UpdatableEntity
 import jakarta.persistence.*
 
-@Entity
-@Table(name = "emergency_contact")
+@Entity(name = "emergency_contact")
 class UserEmergencyContact private constructor(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, updatable = false)
@@ -23,16 +22,16 @@ class UserEmergencyContact private constructor(
     var contactNumber = contactNumber
         protected set
 
-    init {
+    init{
         require(name.isNotBlank()) {
             "이름이 비어있을 수 없습니다."
         }
-        require(contactNumber.isNotBlank()) {
+        require(contactNumber.isNotBlank()){
             "전화번호가 비어있을 수 없습니다."
         }
     }
 
-    companion object {
+    companion object{
         fun of(user: User, name: String, contactNumber: String) = UserEmergencyContact(user, name, contactNumber)
     }
 }
