@@ -21,6 +21,11 @@ spring:
     hibernate:
       # 안전한 기본값. 프로필에서 필요에 따라 덮어쓴다.
       ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          # JDBC 드라이버가 시각 값을 주고받을 때 기준으로 삼는 타임존.
+          time_zone: Asia/Seoul
 
 server:
   port: ${SERVER_PORT:8080}
