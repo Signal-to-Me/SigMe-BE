@@ -1,3 +1,31 @@
 spring:
   application:
     name: be
+
+  # 프로필을 지정하지 않고 실행하면 dev로 동작한다.
+  profiles:
+    default: dev
+
+  # 기본값을 두지 않아 값이 없으면 기동 단계에서 실패한다.
+  # 잘못된 대상에 연결되는 것보다 뜨지 않는 편이 안전하다.
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    # 영속성 컨텍스트를 트랜잭션 경계로 제한한다.
+    # 활성화되면 View 렌더링까지 커넥션이 유지되어 커넥션 고갈로 이어질 수 있다.
+    open-in-view: false
+    hibernate:
+      # 안전한 기본값. 프로필에서 필요에 따라 덮어쓴다.
+      ddl-auto: validate
+
+server:
+  port: ${SERVER_PORT:8080}
+
+logging:
+  level:
+    root: info
+    com.sigme.be: info
