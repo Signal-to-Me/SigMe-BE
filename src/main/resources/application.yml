@@ -28,7 +28,7 @@ spring:
           time_zone: Asia/Seoul
 
 server:
-  port: ${SERVER_PORT:8080}
+  port: ${SERVER_PORT}
 
 logging:
   level:
