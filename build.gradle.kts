@@ -29,6 +29,7 @@ dependencies {
 
 	// JPA 영속성과 관계형 데이터베이스 연동
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("org.springframework.boot:spring-boot-starter-validation")
 	runtimeOnly("org.postgresql:postgresql")
 	runtimeOnly("com.h2database:h2")
 
@@ -55,6 +56,12 @@ dependencies {
 	testImplementation(platform("io.kotest:kotest-bom:6.0.3"))
 	testImplementation("io.kotest:kotest-runner-junit5")
 	testImplementation("io.kotest:kotest-assertions-core")
+	testImplementation("io.mockk:mockk:1.14.11")
+
+	// Kotlin 테스트 객체 생성을 위한 Instancio 확장과 전이 core
+	testImplementation(platform("org.instancio:instancio-bom:6.0.0-RC4"))
+	testImplementation("org.instancio:instancio-kotlin")
+
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
