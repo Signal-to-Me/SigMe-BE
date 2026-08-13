@@ -1,0 +1,14 @@
+.git
+.agents
+.codex
+.cursor
+.gradle
+.idea
+.kotlin
+build
+src/test
+.env
+*.iml
+AGENTS.md
+compose.yml
+docker

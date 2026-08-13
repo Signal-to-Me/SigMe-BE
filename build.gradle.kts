@@ -6,8 +6,8 @@ plugins {
 	id("io.spring.dependency-management") version "1.1.7"
 }
 
-// Spring AI 모듈의 버전을 하나의 BOM으로 통일
-val springAiVersion by extra("2.0.0")
+// Spring AI를 다시 사용할 때 BOM 버전을 하나로 관리
+// val springAiVersion by extra("2.0.0")
 
 group = "com.sigme"
 version = "0.0.1-SNAPSHOT"
@@ -29,24 +29,38 @@ dependencies {
 
 	// JPA 영속성과 관계형 데이터베이스 연동
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("org.springframework.boot:spring-boot-starter-validation")
 	runtimeOnly("org.postgresql:postgresql")
 	runtimeOnly("com.h2database:h2")
 
 	// 인증·인가와 애플리케이션 보안
 	implementation("org.springframework.boot:spring-boot-starter-security")
 
-	// Spring AI 모델 제공자 연동
-	implementation("org.springframework.ai:spring-ai-starter-model-deepseek")
-	implementation("org.springframework.ai:spring-ai-starter-model-openai")
+	// JWT 발급·검증
+	implementation("io.jsonwebtoken:jjwt-api:0.13.0")
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.13.0")
+	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.13.0")
+
+	// Spring AI 모델 제공자 연동 (현재 미사용)
+	// implementation("org.springframework.ai:spring-ai-starter-model-deepseek")
+	// implementation("org.springframework.ai:spring-ai-starter-model-openai")
 
 	// Spring이 Kotlin 타입과 리플렉션 정보를 처리하는 데 사용
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 
+	// SLF4J 파사드 위의 Kotlin 로깅 (구현체 Logback은 스타터에 포함)
+	implementation("io.github.oshai:kotlin-logging-jvm:7.0.7")
+
 	// 통합 테스트와 Spring Security 테스트 지원
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
-	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+
+	// Kotest 테스트 엔진과 기본 단언문 지원
+	testImplementation(platform("io.kotest:kotest-bom:6.0.3"))
+	testImplementation("io.kotest:kotest-runner-junit5")
+	testImplementation("io.kotest:kotest-assertions-core")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
 }
 
 kotlin {
@@ -66,7 +80,7 @@ tasks.named<Test>("test") {
 }
 dependencyManagement {
 	imports {
-		// DeepSeek와 OpenAI 스타터가 동일한 Spring AI 릴리스 조합을 사용
-		mavenBom("org.springframework.ai:spring-ai-bom:$springAiVersion")
+		// Spring AI를 다시 사용할 때 스타터의 릴리스 조합을 BOM으로 통일
+		// mavenBom("org.springframework.ai:spring-ai-bom:$springAiVersion")
 	}
 }
