@@ -100,6 +100,6 @@ class UserAuthProvider private constructor(
             isPrimary
         )
 
-        fun emailNormalize(email: String) = email.lowercase()
+        fun emailNormalize(email: String) = email.lowercase().trim()
     }
 }
