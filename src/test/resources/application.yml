@@ -1,0 +1,8 @@
+sigme:
+  jwt:
+    # 테스트 전용 고정 값. 운영 키는 JWT_SECRET_KEY 환경 변수로 주입한다.
+    # JwtProperties 가 UTF-8 기준 32바이트 이상을 요구하므로 길이를 줄이지 않는다.
+    secret-key: test-only-secret-key-not-used-in-production
+    issuer: sigMe-test-issuer
+    access-token-ttl: 30m
+    refresh-token-ttl: 30d

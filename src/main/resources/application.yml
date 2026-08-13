@@ -1,3 +1,11 @@
 spring:
   application:
     name: be
+
+
+sigme:
+  jwt:
+    secret-key: ${JWT_SECRET_KEY}
+    issuer: sigMe-server-be-issuer
+    access-token-ttl: 30m
+    refresh-token-ttl: 30d
