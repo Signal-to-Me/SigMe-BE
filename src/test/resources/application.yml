@@ -1,8 +1,24 @@
-sigme:
-  jwt:
-    # 테스트 전용 고정 값. 운영 키는 JWT_SECRET_KEY 환경 변수로 주입한다.
-    # JwtProperties 가 UTF-8 기준 32바이트 이상을 요구하므로 길이를 줄이지 않는다.
-    secret-key: test-only-secret-key-not-used-in-production
-    issuer: sigMe-test-issuer
-    access-token-ttl: 30m
-    refresh-token-ttl: 30d
+# 테스트 전용 설정.
+# 외부 DB에 의존하지 않도록 인메모리 H2를 사용한다.
+# PostgreSQL 고유 문법이 필요해지면 Testcontainers로 옮긴다.
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:test;MODE=PostgreSQL;DB_CLOSE_DELAY=-1
+    username: sa
+    password: ""
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      # 엔티티 기준으로 스키마를 만든다. 운영 스키마 SQL은 사용하지 않는다.
+      ddl-auto: create-drop
+
+server:
+  # 임의의 빈 포트를 사용해 실행 중인 애플리케이션과 충돌하지 않게 한다.
+  port: 0
+
+logging:
+  level:
+    root: warn
+    com.sigme.be: info

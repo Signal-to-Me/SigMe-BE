@@ -2,10 +2,14 @@ services:
   postgres:
     image: postgres:17-alpine
     restart: unless-stopped
+    # 조회 시 시각을 한국 시간으로 표시한다. 저장 값은 TIMESTAMPTZ 규칙에 따라 UTC를 유지한다.
+    # 볼륨이 이미 초기화된 뒤에도 적용되도록 환경 변수가 아닌 서버 파라미터로 지정한다.
+    command: ["postgres", "-c", "timezone=Asia/Seoul"]
     environment:
       POSTGRES_DB: "${POSTGRES_DB:?Set POSTGRES_DB in .env}"
       POSTGRES_USER: "${POSTGRES_USER:?Set POSTGRES_USER in .env}"
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}"
+      TZ: Asia/Seoul
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
     volumes:
@@ -31,11 +35,12 @@ services:
       postgres:
         condition: service_healthy
     environment:
+      # JVM 기본 타임존. 로그 시각과 LocalDate.now()의 기준이 된다.
+      TZ: Asia/Seoul
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-dev}
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
-      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
       SPRING_AI_DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
       SPRING_AI_OPENAI_API_KEY: ${OPENAI_API_KEY:-}
       JWT_SECRET_KEY: "${JWT_SECRET_KEY:?Set JWT_SECRET_KEY in .env}"
