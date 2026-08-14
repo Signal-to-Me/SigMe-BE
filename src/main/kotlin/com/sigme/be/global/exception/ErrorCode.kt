@@ -20,7 +20,14 @@ enum class ErrorCode(
     // 공통 (COMMON)
     INVALID_REQUEST("COMMON-001", "요청 형식이 올바르지 않습니다.", HttpStatus.BAD_REQUEST),
     INTERNAL_SERVER_ERROR("COMMON-002", "내부 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
-    NOT_FOUND("COMMON-003", "요청한 리소스를 찾을 수 없습니다.", HttpStatus.NOT_FOUND);
+    NOT_FOUND("COMMON-003", "요청한 리소스를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+
+    // 인증 (AUTH)
+    INVALID_TOKEN("AUTH-001", "토큰이 올바르지 않습니다.", HttpStatus.UNAUTHORIZED),
+    EXPIRED_TOKEN("AUTH-002", "토큰이 만료되었습니다.", HttpStatus.UNAUTHORIZED),
+    INVALID_CREDENTIALS("AUTH-003", "이메일 또는 비밀번호가 올바르지 않습니다.", HttpStatus.UNAUTHORIZED),
+    UNAUTHENTICATED("AUTH-004", "인증이 필요합니다.", HttpStatus.UNAUTHORIZED),
+    ACCESS_DENIED("AUTH-005", "접근 권한이 없습니다.", HttpStatus.FORBIDDEN);
 
     companion object {
         fun from(status: HttpStatusCode): ErrorCode = entries.firstOrNull{it.httpStatus == status} ?: INTERNAL_SERVER_ERROR
