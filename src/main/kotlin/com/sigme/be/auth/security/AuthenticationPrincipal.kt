@@ -8,7 +8,7 @@ import java.util.*
 /**
  * Principal은 Authentication에 담길 대상을 나타냄
  */
-class EmailPasswordPrincipal (
+class AuthenticationPrincipal (
     val userId: UUID,
     private val email: String,
     passwordHash: String,

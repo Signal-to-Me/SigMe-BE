@@ -9,6 +9,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
+private const val ACCOUNT_NOT_FOUND_MESSAGE = "이메일 계정을 찾을 수 없습니다."
+
+
 @Service
 @Transactional(readOnly = true)
 class EmailPasswordDetailService(
@@ -19,18 +22,16 @@ class EmailPasswordDetailService(
             ProviderType.EMAIL,
             UserAuthProvider.emailNormalize(email)
         )
-            ?: throw UsernameNotFoundException("이메일 계정을 찾을 수 없습니다.")
+            ?: throw UsernameNotFoundException(ACCOUNT_NOT_FOUND_MESSAGE)
 
         val passwordHash = provider.passwordHash
-            ?: throw UsernameNotFoundException("이메일 계정을 찾을 수 없습니다.")
+            ?: throw UsernameNotFoundException(ACCOUNT_NOT_FOUND_MESSAGE)
 
-        val userId = checkNotNull(provider.user.id)
-
-        return EmailPasswordPrincipal(
-            userId = userId,
+        return AuthenticationPrincipal(
+            userId = provider.user.id,
             email = provider.providerAccountId,
             passwordHash = passwordHash,
-            enabled = provider.user.deletedAt == null,
+            enabled = provider.user.deletedAt == null
         )
     }
 }

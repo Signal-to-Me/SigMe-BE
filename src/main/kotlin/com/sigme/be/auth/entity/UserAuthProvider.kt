@@ -89,13 +89,13 @@ class UserAuthProvider private constructor(
 
         fun email(
             user: User,
-            providerAccountId: String,
+            email: String,
             passwordHash: String,
             isPrimary: Boolean
         ) = UserAuthProvider(
             user,
             ProviderType.EMAIL,
-            emailNormalize(providerAccountId),
+            emailNormalize(email),
             passwordHash,
             isPrimary
         )
