@@ -9,6 +9,5 @@ build
 src/test
 .env
 *.iml
-CLAUDE.md
 compose.yml
 docker
