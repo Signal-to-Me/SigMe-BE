@@ -22,14 +22,21 @@ class GlobalExceptionHandler : ResponseEntityExceptionHandler() {
     fun handleSigmeException(
         ex: SigmeException
     ): ResponseEntity<ApiErrorResponse> {
-        log.warn { "처리된 예외 code=${ex.errorCode.code} status=${ex.errorCode.httpStatus.value()}" }
+        val status = ex.errorCode.httpStatus
+        val traceId = if (status.is5xxServerError) UUID.randomUUID().toString() else null
+
+        if (traceId != null) {
+            log.error(ex) { "처리된 예외 code=${ex.errorCode.code} status=${status.value()} traceId=$traceId" }
+        } else {
+            log.warn { "처리된 예외 code=${ex.errorCode.code} status=${status.value()}" }
+        }
 
         return ResponseEntity
-            .status(ex.errorCode.httpStatus)
+            .status(status)
             .body(
                 ApiErrorResponse.from(
                     ex.errorCode,
-                    ex.details
+                    details = traceId?.let { ex.details + ("traceId" to it) } ?: ex.details
                 )
             )
     }
