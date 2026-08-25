@@ -2,6 +2,7 @@ package com.sigme.be.global.exception
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatusCode
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.method.ParameterErrors
@@ -149,6 +150,9 @@ class GlobalExceptionHandler : ResponseEntityExceptionHandler() {
     /**
      * Spring MVC 표준 예외(404·405·415 등)의 응답 본문을 공통 에러 응답으로 매핑.
      * 각 에러를 override하지 않아도 오류 응답 형식이 하나로 통일됨.
+     *
+     * 상태는 프레임워크가 정한 statusCode를 본문에도 그대로 넘긴다.
+     * ErrorCode는 코드와 메시지만 담당하므로 두 값이 갈리지 않는다.
      */
     override fun handleExceptionInternal(
         ex: Exception,
@@ -157,17 +161,33 @@ class GlobalExceptionHandler : ResponseEntityExceptionHandler() {
         statusCode: HttpStatusCode,
         request: WebRequest
     ): ResponseEntity<Any>? {
-        val errorCode = ErrorCode.from(statusCode)
+        val errorCode = standardErrorCode(statusCode)
 
         log.warn { "MVC 표준 예외 code=${errorCode.code} status=${statusCode.value()} type=${ex.javaClass.simpleName}" }
 
         return super.handleExceptionInternal(
             ex,
-            ApiErrorResponse.from(errorCode),
+            ApiErrorResponse.from(
+                errorCode = errorCode,
+                status = statusCode
+            ),
             headers,
             statusCode,
             request
         )
+    }
+
+    /**
+     * MVC 표준 예외의 상태 코드에 붙일 공통 ErrorCode를 고른다.
+     *
+     * 하나의 상태에 여러 ErrorCode가 대응하므로 상태로 ErrorCode를 특정할 수 없다.
+     * 이 계층은 어떤 업무 실패인지 알지 못하므로
+     * 리소스 부재, 서버 오류, 그 밖의 요청 오류 셋까지만 구분한다.
+     */
+    private fun standardErrorCode(statusCode: HttpStatusCode): ErrorCode = when {
+        statusCode.isSameCodeAs(HttpStatus.NOT_FOUND) -> ErrorCode.NOT_FOUND
+        statusCode.is5xxServerError -> ErrorCode.INTERNAL_SERVER_ERROR
+        else -> ErrorCode.INVALID_REQUEST
     }
 
     private fun invalidRequestResponse(

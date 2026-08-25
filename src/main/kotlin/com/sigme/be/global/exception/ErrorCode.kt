@@ -30,9 +30,5 @@ enum class ErrorCode(
     ACCESS_DENIED("AUTH-005", "접근 권한이 없습니다.", HttpStatus.FORBIDDEN),
     DUPLICATE_AUTH_PROVIDER("AUTH-006", "이미 등록된 로그인 수단입니다.", HttpStatus.CONFLICT),
     PRIMARY_PROVIDER_REQUIRED("AUTH-007", "주요 로그인 수단을 지정해야 합니다.", HttpStatus.BAD_REQUEST),
-    PRIMARY_PROVIDER_ALREADY_EXISTS("AUTH-008", "이미 주요 로그인 수단이 있습니다.", HttpStatus.CONFLICT);
-
-    companion object {
-        fun from(status: HttpStatusCode): ErrorCode = entries.firstOrNull{it.httpStatus == status} ?: INTERNAL_SERVER_ERROR
-    }
+    PRIMARY_PROVIDER_ALREADY_EXISTS("AUTH-008", "이미 주요 로그인 수단이 있습니다.", HttpStatus.CONFLICT)
 }
