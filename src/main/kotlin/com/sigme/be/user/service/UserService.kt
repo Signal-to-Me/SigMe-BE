@@ -19,7 +19,7 @@ class UserService(
     private val jwtProperties: JwtProperties
 ) {
     fun signUp(request: EmailSignUpRequest): SignUpResponse {
-        val user = userRepository.save(User.of(request.userName))
+        val user = userRepository.save(User.of(request.username))
         authService.linkEmailProvider(
             user = user,
             email = request.email,

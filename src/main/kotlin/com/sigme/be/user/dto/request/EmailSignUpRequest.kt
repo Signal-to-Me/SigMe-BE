@@ -12,12 +12,12 @@ data class EmailSignUpRequest(
     val password: String,
 
     @field:NotBlank
-    val userName: String,
+    val username: String,
 
     @field:NotNull
     val isPrimary: Boolean
 ) {
     override fun toString(): String {
-        return "EmailSignUpRequest(userName='$userName', isPrimary=$isPrimary)"
+        return "EmailSignUpRequest(userName='$username', isPrimary=$isPrimary)"
     }
 }
