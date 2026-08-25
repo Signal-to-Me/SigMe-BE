@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
-class CredetialVerifier(
+class CredentialVerifier(
     private val authenticationManager: AuthenticationManager
 ) {
     fun authenticate(providerAccountId: String, password: String): UUID {

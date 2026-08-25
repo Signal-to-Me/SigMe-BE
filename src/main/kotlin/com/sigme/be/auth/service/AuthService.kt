@@ -26,7 +26,7 @@ private val log = KotlinLogging.logger { }
 class AuthService(
     private val jwtTokenService: JwtTokenService,
     private val jwtProperties: JwtProperties,
-    private val credentialVerifier: CredetialVerifier,
+    private val credentialVerifier: CredentialVerifier,
     private val userAuthProviderRepository: UserAuthProviderRepository,
     private val authenticationHistoryRepository: AuthenticationHistoryRepository,
     private val passwordEncoder: PasswordEncoder,
