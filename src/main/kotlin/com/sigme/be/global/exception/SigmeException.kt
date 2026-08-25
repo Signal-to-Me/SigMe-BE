@@ -1,6 +1,6 @@
 package com.sigme.be.global.exception
 
-class SigmeException(
+abstract class SigmeException(
     val errorCode: ErrorCode,
     details: Map<String, Any?> = emptyMap(),
     cause: Throwable? = null,

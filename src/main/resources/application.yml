@@ -2,10 +2,6 @@ spring:
   application:
     name: be
 
-  # 프로필을 지정하지 않고 실행하면 dev로 동작한다.
-  profiles:
-    default: dev
-
   # 기본값을 두지 않아 값이 없으면 기동 단계에서 실패한다.
   # 잘못된 대상에 연결되는 것보다 뜨지 않는 편이 안전하다.
   datasource:
@@ -27,8 +23,14 @@ spring:
           # JDBC 드라이버가 시각 값을 주고받을 때 기준으로 삼는 타임존.
           time_zone: Asia/Seoul
 
-server:
-  port: ${SERVER_PORT}
+sigme:
+  jwt:
+    secret-key: ${JWT_SECRET_KEY}
+
+    # 환경에 따라 달라질 값이 아니므로 여기서 한 번만 정한다.
+    issuer: sigMe-server-be-issuer
+    access-token-ttl: 30m
+    refresh-token-ttl: 30d
 
 logging:
   level:

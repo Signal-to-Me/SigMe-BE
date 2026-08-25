@@ -9,6 +9,5 @@ build
 src/test
 .env
 *.iml
-AGENTS.md
 compose.yml
 docker

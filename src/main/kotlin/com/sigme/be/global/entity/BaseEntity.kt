@@ -11,8 +11,12 @@ import java.util.*
 @EntityListeners(AuditingEntityListener::class)
 abstract class BaseEntity {
     @Id
+    @Column(name = "id", nullable = false, updatable = false)
     @GeneratedValue(strategy = GenerationType.UUID)
-    val id: UUID? = null
+    val entityId: UUID? = null
+
+    val id: UUID
+        get() = checkNotNull(entityId)
 
     @CreatedDate
     var createdAt: Instant? = null
@@ -23,7 +27,7 @@ abstract class BaseEntity {
         if (other !is BaseEntity) return false
         if (Hibernate.getClass(this) != Hibernate.getClass(other)) return false
 
-        return id != null && id == other.id
+        return entityId != null && entityId == other.entityId
     }
 
     override fun hashCode(): Int = Hibernate.getClass(this).hashCode()
